@@ -21,7 +21,6 @@ import { AuthGuard } from '../guards/auth.guard';
 
 @Controller('auth')
 @Serialize(UserDto)
-@UseGuards(AuthGuard)
 export class UsersController {
   constructor(
     private usersService: UsersService,
@@ -53,6 +52,7 @@ export class UsersController {
   async login(@Body() body: CreateUserDto, @Session() session: any) {
     const user = await this.authService.login(body.email, body.password);
     session.userId = user.id;
+    return user;
   }
 
   @Get('/:id')
